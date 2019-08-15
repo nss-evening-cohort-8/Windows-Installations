@@ -137,7 +137,7 @@ function Confirm-SqlInstall ()
   }
   else
   {
-    # Found a SQL install.  Check if it is at least ther version we need based on $SqlRequiredVersion
+    # Found a SQL install.  Check if it is at least the version we need based on $SqlRequiredVersion
     $SqlDefaultInstance = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL').MSSQLSERVER
     if ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\$SqlDefaultInstance\Setup").Version -ge $SqlRequiredVersion)
     {
