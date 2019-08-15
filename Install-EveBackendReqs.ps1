@@ -20,8 +20,8 @@
 # What it Do:   Downloads and installs the necessary tools for the Evening Back End
 #               class on Windows devices.
 #
-# Updates:      1.0 - Initial Release
-#               2.0 - Updated for 2019, Added .Net Core SDK
+# Updates:      1.0 - (02/21/2019) Initial Release
+#               2.0 - (08/15/2019) Updated for 2019, Added .Net Core SDK
 #========================================================================
 
 #requires -RunAsAdministrator
@@ -65,7 +65,6 @@ $Kdiff3Url = 'https://svwh.dl.sourceforge.net/project/kdiff3/kdiff3/0.9.98/KDiff
 $LatestGitFerWindersRelease = (Invoke-WebRequest 'https://api.github.com/repos/git-for-windows/git/releases/latest' -UseBasicParsing -Headers @{"Accept" = "application/json" }).Content | ConvertFrom-Json
 $GitDownloadUrl = ($LatestGitFerWindersRelease.assets | Where-Object { $_.Name -like "Git-*-64-bit.exe" }).browser_download_url
 $GitName = ($LatestGitFerWindersRelease.assets | Where-Object { $_.Name -like "Git-*-64-bit.exe" }).name
-# $GitConfigIniUrl = 'https://bit.ly/2EdhG5z'
 $GitConfigIniUrl = 'https://bit.ly/31Bi2Nl'
 $GitFolderPath = "$RootFolderPath\Git"
 
@@ -194,9 +193,7 @@ function Confirm-Git
   else
   {
     Start-Process bitsadmin.exe -ArgumentList " /transfer GitDownload /dynamic /priority FOREGROUND $GitDownloadUrl $GitFolderPath\$GitName" -WindowStyle Hidden -Wait
-    # Start-BitsTransfer -Source $GitDownloadUrl -Destination "$GitFolderPath\$GitName"
     Invoke-WebRequest -Uri $GitConfigIniUrl -OutFile "$GitFolderPath\GitConfig.ini"
-    # Start-BitsTransfer -Source $GitConfigIniUrl -Destination "$GitFolderPath\GitConfig.ini"
     return $false
   }
 }
@@ -287,7 +284,6 @@ if (!(Confirm-GitConfig -Command "merge.tool"))
 {
   Start-Process -FilePath "C:\Program Files\Git\bin\git.exe" -ArgumentList "config --global merge.tool kdiff3" -WindowStyle Minimized -Wait
   Start-Process -FilePath "C:\Program Files\Git\bin\git.exe" -ArgumentList "config --global mergetool.kdiff3.path C:\Progra~1\KDiff3\kdiff3.exe" -WindowStyle Minimized -Wait
-  # Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "git config --global --add merge.tool kdiff3; git config --global --add mergetool.kdiff3.path 'C:/Program Files/KDiff3/kdiff3.exe'" -WindowStyle Minimized -Wait
 }
 
 Write-Host "*** You may need to open SQL Server Management Studio (SSMS) with Admin Rights if you get a logon error ***`n" -BackgroundColor Black -ForegroundColor Cyan
