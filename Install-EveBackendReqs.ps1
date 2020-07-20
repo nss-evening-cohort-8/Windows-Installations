@@ -47,7 +47,7 @@ $SsmsExecutable = ([uri]$SsmsUrl | Select-Object -ExpandProperty Segments)[([uri
 # *** SQL Developer Edition ***
 $SqlRequiredVersion = '15.0.2000.5' # SQL 2019 RTM (http://sqlserverbuilds.blogspot.com/)
 $SqlFolderPath = "$RootFolderPath\SQL"
-$SqlInstallerHash = 'FB67DB0057C0229F3A13AFCE79FA12F0926C644F8525AA27922FF53FA0305F6F' # SHA256
+$SqlInstallerHash = '9E32A4BABD2E90A4D0351A1C3209DFE3954E0B2A871A111E8512C65A7B9C21B5' # SHA256
 $SqlUrl = 'https://download.microsoft.com/download/d/a/2/da259851-b941-459d-989c-54a18a5d44dd/SQL2019-SSEI-Dev.exe'
 $SqlExecutable = ([uri]$SqlUrl | Select-Object -ExpandProperty Segments)[([uri]$SqlUrl | Select-Object -ExpandProperty Segments).length - 1]
 $SqlConfigUrl = 'https://bit.ly/2GTSp36'
