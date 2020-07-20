@@ -3,7 +3,7 @@
 # Created by:   Marco Crank
 # Organization: Nashville Software School
 # Filename:     Install-EveBackendReqs.ps1
-# Version:      3.0
+# Version:      3.1
 # Disclaimer:   THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
 #               ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 #               THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
@@ -24,6 +24,7 @@
 #               2.0 - (08/15/2019) Updated for 2019, Added .Net Core SDK
 #               3.0 - (02/08/2020) Updated dotnet (3.1), Updated SQL 2019 Dev, Remove KDiff
 #                     Added file hash matching to prevent re-download of files
+#               3.1 - (07/20/2020) Updated SQL 2019 DE executable. Previous one no longer worked
 #========================================================================
 
 #requires -RunAsAdministrator
@@ -46,8 +47,8 @@ $SsmsExecutable = ([uri]$SsmsUrl | Select-Object -ExpandProperty Segments)[([uri
 # *** SQL Developer Edition ***
 $SqlRequiredVersion = '15.0.2000.5' # SQL 2019 RTM (http://sqlserverbuilds.blogspot.com/)
 $SqlFolderPath = "$RootFolderPath\SQL"
-$SqlInstallerHash = 'FB67DB0057C0229F3A13AFCE79FA12F0926C644F8525AA27922FF53FA0305F6F' # SHA256
-$SqlUrl = 'https://download.microsoft.com/download/b/8/c/b8ce1000-2e0b-4bc8-b4e4-646e9a439525/SQL2019-SSEI-Dev.exe'
+$SqlInstallerHash = '9E32A4BABD2E90A4D0351A1C3209DFE3954E0B2A871A111E8512C65A7B9C21B5' # SHA256
+$SqlUrl = 'https://download.microsoft.com/download/d/a/2/da259851-b941-459d-989c-54a18a5d44dd/SQL2019-SSEI-Dev.exe'
 $SqlExecutable = ([uri]$SqlUrl | Select-Object -ExpandProperty Segments)[([uri]$SqlUrl | Select-Object -ExpandProperty Segments).length - 1]
 $SqlConfigUrl = 'https://bit.ly/2GTSp36'
 
@@ -300,7 +301,7 @@ if (!(Confirm-DotnetCore))
   Start-Process -FilePath "$DotNetFolderPath\$DotNetExecutableName" -ArgumentList "/quiet /norestart /log $DotNetFolderPath\dotnet_install.txt" -NoNewWindow -Wait
 }
 
-Out-Console -Message "Downloading SQL Server 2019 Developer Edition Bootstrap files"
+Out-Console -Message "Installing SQL Server 2019 Developer Edition"
 if (!(Confirm-SqlInstall))
 {
   Start-Process -FilePath "$SqlFolderPath\$SqlExecutable" -ArgumentList "/ACTION=Install /CONFIGURATIONFILE=$SqlFolderPath\ConfigurationFile.ini /IACCEPTSQLSERVERLICENSETERMS /MEDIAPATH=$SqlFolderPath /QUIET" -NoNewWindow -Wait
